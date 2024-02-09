@@ -32,6 +32,12 @@
 - [AdGuard Home](https://adguard.com/en/adguard-home/overview.html)
 - [Pi-hole﻿®﻿﻿](https://pi-hole.net/)
 
+## Plex
+
+- [Installation](https://support.plex.tv/articles/200288586-installation/)
+    - Download Ubuntu 20.04 Arm64
+    - [Enable repository updating for supported Linux server distributions](https://support.plex.tv/articles/235974187-enable-repository-updating-for-supported-linux-server-distributions/)
+
 ## VPN
 
 - [PipVPN](https://www.pivpn.io/)
