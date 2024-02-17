@@ -42,3 +42,9 @@
 
 - [PipVPN](https://www.pivpn.io/)
 - [Build your own private WireGuard VPN with PiVPN](https://www.jeffgeerling.com/blog/2023/build-your-own-private-wireguard-vpn-pivpn)
+    - [SSH into Wireguard Server](https://www.reddit.com/r/WireGuard/comments/q7lj5s/ssh_into_wireguard_server/?share_id%253DVeLF3uw-dGAJh5T3sOt9d%2526utm_content%253D1%2526utm_medium%253Dandroid_app%2526utm_name%253Dandroidcss%2526utm_source%253Dshare%2526utm_term%253D3)
+    - [HOW TO USE WIREGUARD WITH UFW](https://www.procustodibus.com/blog/2021/05/wireguard-ufw/)
+
+## Grafana
+
+- [Install Grafana on Raspberry Pi](https://grafana.com/tutorials/install-grafana-on-raspberry-pi/)
