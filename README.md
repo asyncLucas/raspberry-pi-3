@@ -30,6 +30,10 @@
 ## Network Ad Blocking
 
 - [AdGuard Home](https://adguard.com/en/adguard-home/overview.html)
+    |   Filter      |                 URL                    |
+    |---------------|----------------------------------------|
+    | oisd          | https://oisd.nl/setup/adguardhome      |
+    | GoodbyeAds    | https://github.com/jerryn70/GoodbyeAds |
 - [Pi-hole﻿®﻿﻿](https://pi-hole.net/)
 
 ## Plex
