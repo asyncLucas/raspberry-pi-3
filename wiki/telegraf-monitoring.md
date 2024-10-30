@@ -16,11 +16,10 @@ Add the following content to the script:
 export INFLUX_HOST=http://<you_ip>:8086
 export INFLUX_TOKEN=<your_api_token_here>
 export INFLUX_ORG=<your_organization>
-```
- 
-### Run Telegraf with the config URL
+
+# Run Telegraf with the config URL
 telegraf --config $INFLUX_HOST/api/v2/telegrafs/<setup Start Telegraf>
- 
+```
 Replace `your_api_token_here` with your actual InfluxDB API token.
  
 Save and exit (CTRL + X, then Y, and press Enter).
