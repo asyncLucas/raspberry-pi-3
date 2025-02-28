@@ -86,3 +86,69 @@ Check the status to ensure the service is running:
 ```shell
 sudo systemctl status telegraf-monitor.service
 ```
+
+## 6. Check logs of the service
+You can check the logs of your `telegraf-monitor.service` using `journalctl`. Here are some useful commands:
+
+### 1️⃣ **View Recent Logs**
+```bash
+journalctl -u telegraf-monitor.service --no-pager --lines=50
+```
+- `-u telegraf-monitor.service` → Filters logs only for this service.
+- `--no-pager` → Prevents scrolling, useful for small outputs.
+- `--lines=50` → Shows the last 50 lines.
+
+---
+
+### 2️⃣ **Follow Live Logs (Real-Time)**
+```bash
+journalctl -u telegraf-monitor.service -f
+```
+This works like `tail -f`, displaying new logs as they appear.
+
+---
+
+### 3️⃣ **View Logs for a Specific Date**
+Example: Logs from today:
+```bash
+journalctl -u telegraf-monitor.service --since today
+```
+Or a custom range:
+```bash
+journalctl -u telegraf-monitor.service --since "2025-02-28 10:00:00" --until "2025-02-28 16:00:00"
+```
+
+---
+
+### 4️⃣ **Check the Last Restart Logs**
+```bash
+journalctl -xe -u telegraf-monitor.service
+```
+- `-xe` → Shows extra details and errors.
+
+---
+
+### 5️⃣ **Check Logs from Boot**
+To see what happened when the system started:
+```bash
+journalctl -u telegraf-monitor.service --boot
+```
+
+---
+
+### 6️⃣ **If Service Fails on Startup**
+If your service fails right after boot, check logs from the last boot:
+```bash
+journalctl -u telegraf-monitor.service --boot -1
+```
+
+---
+
+### 🔥 **Bonus: If Logs Are Too Long**
+To filter only errors:
+```bash
+journalctl -u telegraf-monitor.service | grep -i "error"
+```
+
+---
+
