@@ -54,3 +54,6 @@
 
 ## Coding
 - [Programming Raspberry Pi Remotely using VS Code (Remote-SSH)](https://randomnerdtutorials.com/raspberry-pi-remote-ssh-vs-code/)
+
+## Terminal
+- [Install and Setup ZSH on Ubuntu Linux](https://itsfoss.com/zsh-ubuntu/)
