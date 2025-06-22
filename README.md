@@ -10,6 +10,26 @@
 
 ## Network Storage
 
+- [Fixed IP]
+
+```shell
+network: 2
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+			dhcp4: no
+			addresses:
+				- 192.168.1.100/24 #desire ip
+			routes:
+				- to: default
+					via: 192.168.1.1 #router home
+			nameservers:
+				addresses:
+					- 8.8.8.8
+					- 8.8.4.4
+```
+
 - [Fstab](https://help.ubuntu.com/community/Fstab)
     - The configuration file /etc/fstab contains the necessary information to automate the process of mounting partitions.
 - [Install and Configure Samba](https://ubuntu.com/tutorials/install-and-configure-samba#1-overview)
