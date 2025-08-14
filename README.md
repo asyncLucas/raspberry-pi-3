@@ -39,7 +39,7 @@ network: 2
 - [Install and Configure Samba](https://ubuntu.com/tutorials/install-and-configure-samba#1-overview)
 
 ```shell
-[sambashare]
+[sambashare] # mapped name to connect later e.g.: smb://192.168.1.100/sambashare
     comment = Samba on Ubuntu
     path = /path/to/mounted/disk
     read only = no
