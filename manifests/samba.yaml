@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: samba
+  labels:
+    app: samba
+spec:
+  containers:
+  - name: samba
+    image: dperson/samba
+    args: ["-u", "pi;password", "-s", "share;/share;yes;no;no;pi"]
+    ports:
+    - containerPort: 139
+    - containerPort: 445
+    volumeMounts:
+    - mountPath: /share
+      name: share-data
+  volumes:
+  - name: share-data
+    hostPath:
+      path: /mnt/share

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adguard-home
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adguard
+  template:
+    metadata:
+      labels:
+        app: adguard
+    spec:
+      containers:
+      - name: adguard-home
+        image: adguard/adguardhome
+        ports:
+        - containerPort: 53
+        - containerPort: 80
+        - containerPort: 443
+        - containerPort: 3000
+        volumeMounts:
+        - name: adguard-config
+          mountPath: /opt/adguardhome/conf
+        - name: adguard-work
+          mountPath: /opt/adguardhome/work
+      volumes:
+      - name: adguard-config
+        hostPath:
+          path: /mnt/adguard/config
+      - name: adguard-work
+        hostPath:
+          path: /mnt/adguard/work

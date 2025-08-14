@@ -18,8 +18,8 @@ network: 2
   renderer: networkd
   ethernets:
     eth0:
-			dhcp4: no
-			addresses:
+	  dhcp4: no
+	  addresses:
 					- 192.168.1.100/24 #desire ip
 			routes:
 					- to: default
