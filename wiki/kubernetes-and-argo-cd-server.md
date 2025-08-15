@@ -64,10 +64,16 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ## 3️⃣ Install Argo CD
 
 ### Create namespace
+
+```sh
 kubectl create namespace argocd
+```
 
 ### Install Argo CD
+
+```sh
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
 
 ### Get initial password
 
