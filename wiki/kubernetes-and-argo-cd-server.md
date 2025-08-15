@@ -6,6 +6,7 @@ A complete guide to set up a Raspberry Pi as a home server running Kubernetes, A
 
 ## 🗂 Repository Structure
 
+```sh
 .
 ├── README.md
 ├── manifests/                # Kubernetes raw manifests
@@ -21,7 +22,7 @@ A complete guide to set up a Raspberry Pi as a home server running Kubernetes, A
     ├── install-k3s.sh
     ├── install-argocd.sh
     └── bootstrap-apps.yaml
-
+```
 
 ⸻
 
@@ -33,15 +34,18 @@ A complete guide to set up a Raspberry Pi as a home server running Kubernetes, A
 Place an empty file named ssh in the /boot partition.
 	3.	Boot the Pi and SSH into it:
 
+```sh
 ssh pi@<raspberry-ip>
-
+```
 
 
 ⸻
 
 ## 2️⃣ Install K3s (Lightweight Kubernetes)
 
+```sh
 curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
+```
 
 Check cluster status:
 ```sh
@@ -66,12 +70,17 @@ kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 ### Get initial password
+
+```sh
 kubectl -n argocd get secret argocd-initial-admin-secret \
   -o jsonpath="{.data.password}" | base64 -d
+```
 
 Expose Argo CD UI:
 
+```sh
 kubectl port-forward svc/argocd-server -n argocd 8080:443
+```
 
 Access at: https://localhost:8080
 Default user: admin
@@ -80,8 +89,9 @@ Default user: admin
 
 ## 4️⃣ Install Helm
 
+```sh
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
+```
 
 ⸻
 
@@ -89,6 +99,7 @@ curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
 Create bootstrap/bootstrap-apps.yaml:
 
+```yml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -107,11 +118,13 @@ spec:
     automated:
       prune: true
       selfHeal: true
+```
 
 Apply:
 
+```sh
 kubectl apply -f bootstrap/bootstrap-apps.yaml
-
+```
 
 ⸻
 
@@ -119,6 +132,7 @@ kubectl apply -f bootstrap/bootstrap-apps.yaml
 
 Samba (helm-releases/samba/values.yaml)
 
+```yml
 persistence:
   enabled: true
   size: 50Gi
@@ -128,9 +142,11 @@ users:
 shares:
   - name: public
     path: /data/public
+```
 
 AdGuard Home (helm-releases/adguard-home/values.yaml)
 
+```yml
 service:
   type: LoadBalancer
   port: 3000
@@ -138,15 +154,17 @@ config:
   bind_host: 0.0.0.0
   dns:
     port: 53
+```
 
 Monitoring (helm-releases/monitoring/values.yaml)
 
+```yml
 prometheus:
   service:
     type: ClusterIP
 grafana:
   adminPassword: admin123
-
+```
 
 ⸻
 
@@ -154,9 +172,11 @@ grafana:
 
 To deploy changes:
 
+```sh
 git add .
 git commit -m "Update configs"
 git push
+```
 
 Argo CD will auto-sync changes to your cluster.
 
