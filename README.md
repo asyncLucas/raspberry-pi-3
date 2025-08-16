@@ -17,21 +17,28 @@ sudo nano /etc/netplan/50-cloud-init.yaml
 ```
 
 ```shell
-network: 2
+network:
   version: 2
   renderer: networkd
-   ethernets:
-     eth0:
-       dhcp4: no
-       addresses:
-         - 192.168.1.100/24 #desire ip
-       routes:
-         - to: default
-           via: 192.168.1.1 #router home
-       nameservers:
-       addresses:
-         - 8.8.8.8
-         - 8.8.4.4
+  ethernets:
+    eth0:
+      dhcp4: no
+      addresses:
+        - 192.168.1.100/24   # desired IP
+      routes:
+        - to: default
+          via: 192.168.1.1   # router home
+      nameservers:
+        addresses:
+          - 8.8.8.8
+          - 8.8.4.4
+```
+
+⚡ Steps after saving:
+
+```shell
+sudo netplan try   # safer, reverts if fails
+sudo netplan apply
 ```
 
 - [Fstab](https://help.ubuntu.com/community/Fstab)
