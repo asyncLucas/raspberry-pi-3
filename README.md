@@ -41,6 +41,14 @@ sudo netplan try   # safer, reverts if fails
 sudo netplan apply
 ```
 
+👉 “The server at 192.168.1.100 no longer matches the fingerprint I had saved before. This could mean an attack, but more likely you just reinstalled or reset the SSH server.”
+
+### Option 1: Remove the old host key (simplest)
+
+```shell
+ssh-keygen -R 192.168.1.100
+```
+
 - [Fstab](https://help.ubuntu.com/community/Fstab)
     - The configuration file /etc/fstab contains the necessary information to automate the process of mounting partitions.
 - [Install and Configure Samba](https://ubuntu.com/tutorials/install-and-configure-samba#1-overview)
