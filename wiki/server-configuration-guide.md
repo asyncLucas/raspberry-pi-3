@@ -51,7 +51,7 @@ sudo shutdown -r now
 
 ```bash
 ip a
-curl canihazip.com
+curl icanhazip.com
 ```
 
 ---
