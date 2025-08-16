@@ -108,11 +108,17 @@ sudo nano /etc/samba/smb.conf
 Example share:
 
 ```ini
+# Shared network disks
 [data]
-   path = /media/data
-   writeable = yes
-   browseable = yes
-   guest ok = no
+  comment = Samba on Ubuntu
+  path = /media/data
+  read only = no
+  browsable = yes
+  guest ok = no
+  valid users = lucas
+  force create mode = 770
+  force directory mode = 770
+  inherit permissions = yes
 ```
 
 **Set Samba password:**
