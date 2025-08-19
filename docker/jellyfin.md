@@ -1,7 +1,3 @@
-Perfect 💡 Let’s build a **step-by-step tutorial** for setting up Jellyfin on your Raspberry Pi with Portainer, storing configs under `/media/data/jellyfin`, and making your external NTFS disk (`/media/data`) accessible inside Jellyfin.
-
----
-
 # 📖 Tutorial: Running Jellyfin on Raspberry Pi with External Disk in Portainer
 
 ## 🔹 1. Prerequisites
@@ -140,9 +136,6 @@ In the Jellyfin dashboard:
 
 ✅ Done!
 Now Jellyfin is running via Portainer, configs are safe on your external disk, and the disk is mounted properly with the right permissions so you don’t hit *“The path could not be found”* anymore.
-
-
-Perfect! Let’s extend your Jellyfin tutorial to include **backup and restore** so all your configs, metadata, and library info are safe.
 
 ---
 
