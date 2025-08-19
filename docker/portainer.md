@@ -11,7 +11,7 @@ docker volume create portainer_data
 Next, run the Portainer container. The command below pulls the latest Portainer CE image and starts a container named "portainer". It maps port 9000 on your host to port 9000 in the container and binds the Docker socket to the container, which allows Portainer to manage your Docker environment.
 
 ```bash
-docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
+docker run -d -p 192.168.1.100:8000:8000 -p 192.168.1.100:9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
 ```
 
   * `-d`: Runs the container in **detached** mode (in the background).
