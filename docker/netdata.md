@@ -1,5 +1,9 @@
 # 📖 Tutorial: Running Netdata with Docker via Portainer
 
+## From templates
+
+- [https://portainer-templates.as93.net/netdata](https://raw.githubusercontent.com/Lissy93/portainer-templates/main/templates.json)
+
 ## 🔹 1. Prerequisites
 
 * Raspberry Pi or Linux host
