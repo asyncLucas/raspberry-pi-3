@@ -12,12 +12,19 @@ crontab -e
 Add the Job: Add the following line to the crontab file.
 
 ```shell
-*/5 * * * * python3 /usr/local/bin/check_and_reboot.py >> /var/log/circuit_breaker.log 2>&1
+*/1 * * * * python3 /usr/local/bin/check_and_reboot.py >> /var/log/circuit_breaker.log 2>&1
 ```
 
 ### This configuration does two important things:
 
 - Persistence: The cron daemon will read this line every time the system starts up, ensuring the script is scheduled to run every 5 minutes automatically.
+
+Allow user to write on files:
+```shell
+sudo usermod -aG docker lucas
+sudo chown lucas:lucas /var/log/circuit_breaker.log
+sudo chown lucas:lucas /usr/local/bin/check_and_reboot.py
+```
 
 - Logging: The `>> /var/log/circuit_breaker.log 2>&1` part redirects all output from the script, including both standard output and any errors, to the `/var/log/circuit_breaker.log` file. This lets you review the logs to see exactly when the script ran and what it did.
 
@@ -32,15 +39,15 @@ import datetime
 import subprocess
 
 # --- Configuration ---
-# Set the maximum acceptable 15-minute load average.
+# Set the maximum acceptable 5-minute load average.
 # A good starting point is the number of CPU cores.
 # A Raspberry Pi 4 has 4 cores.
 # Adjust this value based on your specific needs.
 LOAD_THRESHOLD = 3.2 # Changed to 80% as discussed
 
-# --- Get the current 15-minute load average ---
-# psutil.getloadavg() returns a tuple of (1-min, 5-min, 15-min) load averages.
-load_avg_15_min = psutil.getloadavg()[2]
+# --- Get the current 5-minute load average ---
+# psutil.getloadavg() returns a tuple of (1-min, 5-min, 5-min) load averages.
+load_avg_5_min = psutil.getloadavg()[1]
 
 # --- Get the current time for logging ---
 now = datetime.datetime.now()
@@ -48,11 +55,11 @@ timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
 # --- Log the current load average ---
 # This print statement will be captured in the log file by cron.
-print(f"[{timestamp}] Current 15-minute load average: {load_avg_15_min}")
+print(f"[{timestamp}] Current 5-minute load average: {load_avg_5_min}")
 
 # --- Check if the load average exceeds the threshold ---
-if load_avg_15_min > LOAD_THRESHOLD:
-    print(f"[{timestamp}] Load average {load_avg_15_min} is above the threshold {LOAD_THRESHOLD}.")
+if load_avg_5_min > LOAD_THRESHOLD:
+    print(f"[{timestamp}] Load average {load_avg_5_min} is above the threshold {LOAD_THRESHOLD}.")
 
     # --- Stop all containers except Portainer ---
     print(f"[{timestamp}] Stopping all containers except Portainer.")
