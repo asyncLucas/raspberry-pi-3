@@ -29,13 +29,14 @@ By setting up the job this way, you'll have a robust, self-restarting service th
 import os
 import psutil
 import datetime
+import subprocess
 
 # --- Configuration ---
 # Set the maximum acceptable 15-minute load average.
 # A good starting point is the number of CPU cores.
 # A Raspberry Pi 4 has 4 cores.
 # Adjust this value based on your specific needs.
-LOAD_THRESHOLD = 4.0
+LOAD_THRESHOLD = 3.2 # Changed to 80% as discussed
 
 # --- Get the current 15-minute load average ---
 # psutil.getloadavg() returns a tuple of (1-min, 5-min, 15-min) load averages.
@@ -51,11 +52,44 @@ print(f"[{timestamp}] Current 15-minute load average: {load_avg_15_min}")
 
 # --- Check if the load average exceeds the threshold ---
 if load_avg_15_min > LOAD_THRESHOLD:
-    print(f"[{timestamp}] Load average {load_avg_15_min} is above the threshold {LOAD_THRESHOLD}. Initiating reboot.")
+    print(f"[{timestamp}] Load average {load_avg_15_min} is above the threshold {LOAD_THRESHOLD}.")
+
+    # --- Stop all containers except Portainer ---
+    print(f"[{timestamp}] Stopping all containers except Portainer.")
+    try:
+        result = subprocess.run(['sudo', 'docker', 'ps', '-q'], capture_output=True, text=True, check=True)
+        container_ids = result.stdout.strip().split('\n')
+    except subprocess.CalledProcessError as e:
+        print(f"[{timestamp}] Error getting container list: {e}")
+        container_ids = []
+
+    for container_id in container_ids:
+        try:
+            name_result = subprocess.run(['sudo', 'docker', 'inspect', '--format', '{{.Name}}', container_id], capture_output=True, text=True, check=True)
+            container_name = name_result.stdout.strip().lstrip('/')
+            
+            if container_name.lower() == 'portainer':
+                print(f"[{timestamp}] Skipping Portainer container: {container_id}")
+                continue
+            
+            print(f"[{timestamp}] Stopping container {container_name} ({container_id})...")
+            stop_result = subprocess.run(['sudo', 'docker', 'stop', '-f', container_id], check=True)
+            print(f"[{timestamp}] Container {container_name} stopped successfully.")
+            
+        except subprocess.CalledProcessError as e:
+            print(f"[{timestamp}] Error stopping container {container_id}: {e}")
     
-    # --- Execute the reboot command ---
-    # The 'shutdown -r now' command is used to initiate an immediate system reboot.
-    os.system("sudo shutdown -r now")
+    # --- Clear the Linux memory caches to free up RAM ---
+    print(f"[{timestamp}] Clearing system memory caches...")
+    try:
+        # The 'sync' command writes buffered data to disk.
+        subprocess.run(['sync'], check=True)
+        # The 'echo 3 > /proc/sys/vm/drop_caches' command clears all caches.
+        subprocess.run(['sudo', 'sh', '-c', 'echo 3 > /proc/sys/vm/drop_caches'], check=True)
+        print(f"[{timestamp}] Memory caches cleared successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"[{timestamp}] Error clearing memory caches: {e}")
+    
 else:
     print(f"[{timestamp}] System load is stable. No action required.")
 
