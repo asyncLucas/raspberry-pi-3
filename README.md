@@ -75,12 +75,6 @@ ssh-keygen -R 192.168.1.100
     | GoodbyeAds    | https://github.com/jerryn70/GoodbyeAds |
 - [Pi-hole﻿®﻿﻿](https://pi-hole.net/)
 
-## Plex
-
-- [Installation](https://support.plex.tv/articles/200288586-installation/)
-    - Download Ubuntu 20.04 Arm64
-    - [Enable repository updating for supported Linux server distributions](https://support.plex.tv/articles/235974187-enable-repository-updating-for-supported-linux-server-distributions/)
-
 ## VPN
 
 - [PipVPN](https://www.pivpn.io/)
@@ -89,10 +83,21 @@ ssh-keygen -R 192.168.1.100
     - [HOW TO USE WIREGUARD WITH UFW](https://www.procustodibus.com/blog/2021/05/wireguard-ufw/)
 
 ## Monitoring
-- [Monitoring Your Raspberry Pi System using InfluxDB Telegraf](https://randomnerdtutorials.com/monitor-raspberry-pi-influxdb-telegraf/)
+
+- [NetData](./wiki/netdata.md)
+- [InfluxDB Telegraf](https://randomnerdtutorials.com/monitor-raspberry-pi-influxdb-telegraf/)
 
 ## Coding
 - [Programming Raspberry Pi Remotely using VS Code (Remote-SSH)](https://randomnerdtutorials.com/raspberry-pi-remote-ssh-vs-code/)
 
 ## Terminal
 - [Install and Setup ZSH on Ubuntu Linux](https://itsfoss.com/zsh-ubuntu/)
+
+## 🔄 Making the system auto-recover
+
+### Enable automatic reboot on kernel panic
+
+Edit /etc/sysctl.conf:
+```shell
+kernel.panic = 10
+```
