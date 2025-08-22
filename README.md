@@ -8,7 +8,7 @@
 
 - [Ubuntu Server](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview) (I'm using 22.04.3 LTS)
 
-## Network Storage
+## Network
 
 - [Fixed IP]
 
@@ -49,6 +49,28 @@ sudo netplan apply
 ssh-keygen -R 192.168.1.100
 ```
 
+### Limit access to sensitive services
+
+1. Use iptables / nftables directly (native Linux firewall):
+```shell
+# Example: allow SSH only from local network
+sudo iptables -A INPUT -p tcp -s 192.168.1.0/24 --dport 22 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 22 -j DROP
+```
+
+> Similar rules can be applied for Portainer, Samba, DNS, etc.
+
+### Ad Blocking
+
+- [AdGuard Home](https://adguard.com/en/adguard-home/overview.html)
+    |   Filter      |                 URL                    |
+    |---------------|----------------------------------------|
+    | oisd          | https://oisd.nl/setup/adguardhome      |
+    | GoodbyeAds    | https://github.com/jerryn70/GoodbyeAds |
+- [Pi-hole﻿®﻿﻿](https://pi-hole.net/)
+
+## File sharing
+
 - [Fstab](https://help.ubuntu.com/community/Fstab)
     - The configuration file /etc/fstab contains the necessary information to automate the process of mounting partitions.
 - [Install and Configure Samba](https://ubuntu.com/tutorials/install-and-configure-samba#1-overview)
@@ -65,15 +87,6 @@ ssh-keygen -R 192.168.1.100
     force directory mode = 770
     inherit permissions = yes
 ```
-
-## Network Ad Blocking
-
-- [AdGuard Home](https://adguard.com/en/adguard-home/overview.html)
-    |   Filter      |                 URL                    |
-    |---------------|----------------------------------------|
-    | oisd          | https://oisd.nl/setup/adguardhome      |
-    | GoodbyeAds    | https://github.com/jerryn70/GoodbyeAds |
-- [Pi-hole﻿®﻿﻿](https://pi-hole.net/)
 
 ## VPN
 
