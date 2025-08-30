@@ -28,16 +28,19 @@ Adjust the file for your static IP, gateway, and DNS (example):
 ```yaml
 network:
   version: 2
+  renderer: networkd
   ethernets:
     eth0:
-      dhcp4: no
+      dhcp4: false
       addresses:
         - 192.168.1.100/24
-      gateway4: 192.168.1.1
+      routes:
+        - to: 0.0.0.0/0
+          via: 192.168.1.1
       nameservers:
         addresses:
-          - 1.1.1.1
           - 8.8.8.8
+          - 8.8.4.4
 ```
 
 **Apply changes and reboot:**
@@ -208,14 +211,14 @@ The issue is a **DNS loop** caused by `dnsmasq` and `/etc/resolv.conf`. Your `dn
 You need to break the loop by telling `dnsmasq` to use an external, public DNS server. The easiest way to do this is to edit the `dnsmasq` configuration file.
 
 1.  **Edit the `dnsmasq` configuration:**
-Since you've already confirmed that the main `dnsmasq.conf` file is large and you don't want to change it, look for a custom configuration file. Many distributions, including Raspberry Pi OS, use the `/etc/dnsmasq.d/` directory for additional configuration files. Create a new one.
+    Since you've already confirmed that the main `dnsmasq.conf` file is large and you don't want to change it, look for a custom configuration file. Many distributions, including Raspberry Pi OS, use the `/etc/dnsmasq.d/` directory for additional configuration files. Create a new one.
 
 ```bash
 sudo nano /etc/dnsmasq.d/01-custom.conf
 ```
 
 2.  **Add the upstream DNS servers:**
-Inside this new file, add the addresses of one or more public DNS servers. This will override the default behavior of reading `/etc/resolv.conf`. A common pair is Cloudflare's and Google's DNS.
+    Inside this new file, add the addresses of one or more public DNS servers. This will override the default behavior of reading `/etc/resolv.conf`. A common pair is Cloudflare's and Google's DNS.
 
 ```
 # Tell dnsmasq not to read /etc/resolv.conf for upstream nameservers
@@ -227,12 +230,11 @@ server=1.1.1.1
 ```
 
 3.  **Restart the service:**
-Save and close the file, then restart the `dnsmasq` service to apply the changes.
+    Save and close the file, then restart the `dnsmasq` service to apply the changes.
 
 ```bash
 sudo systemctl restart dnsmasq
 ```
-
 
 **Create local config:**
 
@@ -264,22 +266,25 @@ dig @127.0.0.1 server.home
 
 ## 7. 📋 Useful Commands Reference
 
-* **Check DNS service:**
+- **Check DNS service:**
 
   ```bash
   sudo systemctl status dnsmasq
   ```
-* **Flush DNS cache:**
+
+- **Flush DNS cache:**
 
   ```bash
   sudo systemd-resolve --flush-caches 2>/dev/null || sudo resolvectl flush-caches
   ```
-* **Check port 53 usage:**
+
+- **Check port 53 usage:**
 
   ```bash
   sudo ss -tuln | grep :53
   ```
-* **View configs:**
+
+- **View configs:**
 
   ```bash
   cat /etc/resolv.conf
