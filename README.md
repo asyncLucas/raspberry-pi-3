@@ -1,10 +1,65 @@
-# Raspberry Pi 3
+# 🏠 Home Server on Raspberry Pi 3
 
-## Initial Steps
+<div align="center">
 
-- [Raspberry Pi Imager](https://www.raspberrypi.com/software/) enables you to select an Ubuntu image when flashing your SD card.
+[![Ubuntu Server](https://img.shields.io/badge/Ubuntu%20Server-22.04%20LTS-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://ubuntu.com/)
+[![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
+[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![ArgoCD](https://img.shields.io/badge/argo%20cd-%23EF7B4D.svg?style=for-the-badge&logo=argo&logoColor=white)](https://argo-cd.readthedocs.io/)
 
-## Operational System
+</div>
+
+## 📑 Table of Contents
+
+- [Overview](#-overview)
+- [Features](#-features)
+- [Directory Structure](#-directory-structure)
+- [Quick Start](#-quick-start)
+- [Documentation](#-documentation)
+- [Services](#-services)
+- [Contributing](#-contributing)
+
+## 🔍 Overview
+
+This repository contains the complete configuration and documentation for a home server setup using a Raspberry Pi 3, running Ubuntu Server 22.04 LTS. The setup includes Kubernetes cluster management, media streaming, network monitoring, ad blocking, and more.
+
+## ✨ Features
+
+- **Network Management**
+  - Static IP configuration
+  - Network monitoring with Netdata
+  - Ad blocking with AdGuard Home
+  - VPN access with PiVPN
+- **Container Management**
+  - Kubernetes cluster
+  - ArgoCD for GitOps
+  - Portainer for Docker management
+- **Media & Storage**
+  - Jellyfin media server
+  - Samba file sharing
+  - Automated backup system
+- **Monitoring & Security**
+  - Grafana dashboards
+  - Fail2ban protection
+  - Circuit breaker implementation
+  - Telegraf monitoring
+
+## 📁 Directory Structure
+
+| Directory        | Description                                     |
+| ---------------- | ----------------------------------------------- |
+| `/bootstrap`     | Initial setup and installation scripts          |
+| `/docker`        | Docker service configurations and documentation |
+| `/helm-releases` | Helm release configurations                     |
+| `/helm-values`   | Helm chart values                               |
+| `/manifests`     | Kubernetes manifest files                       |
+| `/router`        | Network and router configuration guides         |
+| `/scripts`       | Utility scripts for maintenance                 |
+| `/wiki`          | Detailed documentation and guides               |
+
+## 🚀 Quick Start
+
+1. Flash Ubuntu Server using [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
 
 - [Ubuntu Server](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview) (I'm using 22.04.3 LTS)
 
