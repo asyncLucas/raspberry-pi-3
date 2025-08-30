@@ -10,7 +10,7 @@ if [ -z "$SOURCE_DIR" ]; then
     exit 1
 fi
 
-find "$SOURCE_DIR" -type f \( -iname "*.avi" -o -iname "*.mkv" -o -iname "*.mov" -o -iname "*.flv" \) | while read -r file; do
+find "$SOURCE_DIR" -type f \( -iname "*.avi" -o -iname "*.mkv" -o -iname "*.mov" -o -iname "*.flv" \) -print0 | while IFS= read -r -d '' file; do
     dir=$(dirname "$file")
     base=$(basename "$file")
     name="${base%.*}"
