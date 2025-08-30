@@ -52,7 +52,7 @@ sudo apt install ffmpeg -y
 
 2. Download the script
 
-Create a file called convert_videos.sh:
+Create a file called convert-videos.sh:
 
 nano convert_videos.sh
 
@@ -60,11 +60,11 @@ Paste the content below:
 
 #!/bin/bash
 
-# Usage: ./convert_videos.sh /path/to/your/library
+# Usage: ./convert-videos.sh /path/to/your/library
 
 INPUT_DIR="$1"
 if [ -z "$INPUT_DIR" ]; then
-echo "❌ Provide the videos folder. Example: ./convert_videos.sh /media/videos"
+echo "❌ Provide the videos folder. Example: ./convert-videos.sh /media/videos"
 exit 1
 fi
 
@@ -102,7 +102,7 @@ chmod +x convert_videos.sh
 
 Run the script passing the library folder:
 
-./convert_videos.sh /media/videos
+./convert-videos.sh /media/videos
 
 The script will traverse all folders and subfolders converting/remuxing the files.
 

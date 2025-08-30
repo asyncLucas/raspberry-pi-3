@@ -1,31 +1,42 @@
 #!/bin/bash
-# Uso: ./convert_videos.sh /caminho/para/sua/biblioteca
+# convert-to-mp4.sh
+# Recursively convert/remux videos to MP4 (H.264 + AAC) for Jellyfin direct play
+# Deletes original file after successful conversion
 
-INPUT_DIR="$1"
-if [ -z "$INPUT_DIR" ]; then
-  echo "❌ Informe a pasta de vídeos. Exemplo: ./convert_videos.sh /media/videos"
-  exit 1
+SOURCE_DIR="$1"
+
+if [ -z "$SOURCE_DIR" ]; then
+    echo "Usage: $0 /path/to/media"
+    exit 1
 fi
 
-find "$INPUT_DIR" -type f \( -iname "*.mkv" -o -iname "*.avi" -o -iname "*.mov" -o -iname "*.mp4" \) | while read -r file; do
-  dir=$(dirname "$file")
-  base=$(basename "$file")
-  name="${base%.*}"
-  output="$dir/$name.mp4"
+find "$SOURCE_DIR" -type f \( -iname "*.avi" -o -iname "*.mkv" -o -iname "*.mov" -o -iname "*.flv" \) | while read -r file; do
+    dir=$(dirname "$file")
+    base=$(basename "$file")
+    name="${base%.*}"
+    output="$dir/$name.mp4"
 
-  echo "🎬 Processando: $file"
+    # Skip if already converted
+    if [ -f "$output" ]; then
+        echo "⏭ Skipping (already exists): $output"
+        continue
+    fi
 
-  # Verifica codecs de vídeo e áudio
-  vcodec=$(ffprobe -v error -select_streams v:0 -show_entries stream=codec_name -of csv=p=0 "$file")
-  acodec=$(ffprobe -v error -select_streams a:0 -show_entries stream=codec_name -of csv=p=0 "$file")
+    echo "🎬 Processing: $file → $output"
 
-  if [[ "$vcodec" == "h264" && "$acodec" == "aac" ]]; then
-    echo "✅ Já está em H.264 + AAC → apenas remuxando..."
-    ffmpeg -i "$file" -c copy -movflags +faststart "$output" -y
-  else
-    echo "⚡ Convertendo para H.264 + AAC..."
-    ffmpeg -i "$file" -c:v libx264 -preset fast -crf 20 -c:a aac -b:a 192k -movflags +faststart "$output" -y
-  fi
+    # Try remux first (fast, only audio converted if needed)
+    ffmpeg -i "$file" -c:v copy -c:a aac -b:a 128k -movflags +faststart "$output" -y
 
-  echo "✔️ Finalizado: $output"
+    if [ $? -ne 0 ]; then
+        echo "⚠️ Remux failed, trying full re-encode..."
+        ffmpeg -i "$file" -c:v libx264 -preset fast -crf 20 -c:a aac -b:a 192k -movflags +faststart "$output" -y
+    fi
+
+    if [ $? -eq 0 ] && [ -f "$output" ]; then
+        echo "✅ Success: $output"
+        rm -f "$file"
+    else
+        echo "❌ Failed: $file (keeping original)"
+        [ -f "$output" ] && rm -f "$output"
+    fi
 done
