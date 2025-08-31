@@ -1,8 +1,3 @@
-Perfect 👍 Let’s make a mini tutorial on how to configure and reload WireGuard when changing AllowedIPs.
-I’ll include step-by-step commands with explanations in English.
-
-⸻
-
 🔐 WireGuard Configuration – Mini Tutorial
 
 1. Locate your configuration file
