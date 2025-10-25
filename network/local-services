@@ -1,0 +1,49 @@
+# /etc/nginx/sites-available/local-services
+
+# PORTAINER setup
+server {
+    listen 80;
+    server_name portainer.server.home;
+
+    location / {
+        # Assuming Portainer is running on the same server on port 9443
+        proxy_pass https://192.168.1.100:9443;
+
+	# Add directives for handling HTTPS proxying (optional but recommended)
+        proxy_ssl_server_name on;
+        proxy_ssl_session_reuse off;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+
+# JELLYFIN setup
+server {
+    listen 80;
+    server_name jellyfin.server.home;
+
+    location / {
+        # Assuming Jellyfin is running on the same server on port 8096
+        proxy_pass http://192.168.1.100:8096;
+        proxy_set_header Host $host;
+        # ... other necessary headers
+    }
+}
+
+# NETDATA setup
+server {
+    listen 80;
+    server_name netdata.server.home;
+
+    location / {
+        # Assuming Netdata is running on the same server on port 19999
+        proxy_pass http://192.168.1.100:19999;
+        proxy_set_header Host $host;
+        # ... other necessary headers
+    }
+}
+
