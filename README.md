@@ -149,6 +149,7 @@ sudo iptables -A INPUT -p tcp --dport 22 -j DROP
 ### Setup DNS
 
 - [DuckDNS](https://gist.github.com/taichikuji/6f4183c0af1f4a29e345b60910666468)
+- [Port Forwarding Testing](https://www.yougetsignal.com/tools/open-ports/)
 
 ### PiVPN
 
