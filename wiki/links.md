@@ -1,0 +1,1 @@
+- [9 Powerful Python Scripts to Automate Your Raspberry Pi](https://raspberrytips.com/python-scripts-automate-raspberry-pi/)
