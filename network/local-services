@@ -47,3 +47,15 @@ server {
     }
 }
 
+# Adguard Home setup
+server {
+    listen 80;
+    server_name netdata.server.home;
+
+    location / {
+        # Assuming Netdata is running on the same server on port 19999
+        proxy_pass http://192.168.1.100:19999;
+        proxy_set_header Host $host;
+        # ... other necessary headers
+    }
+}
